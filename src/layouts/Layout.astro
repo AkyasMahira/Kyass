@@ -1,0 +1,32 @@
+---
+import '@fontsource/geist-sans';
+import '@fontsource/jetbrains-mono';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = "Building modern, fast & minimal web experiences."
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body class="bg-background text-primary antialiased selection:bg-accent selection:text-background min-h-screen flex flex-col">
+    <!-- Noise texture overlay -->
+    <div class="pointer-events-none fixed inset-0 z-50 h-full w-full opacity-[0.03] bg-[url('/noise.png')] mix-blend-overlay"></div>
+
+    <slot />
+  </body>
+</html>
