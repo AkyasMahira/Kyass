@@ -1,0 +1,65 @@
+---
+const projects = [
+  {
+    title: 'SimAntrian',
+    description: 'Sistem manajemen antrean digital terintegrasi untuk fasilitas kesehatan, memastikan alur pasien yang efisien dan real-time.',
+    tech: ['Next.js', 'TypeScript', 'Laravel'],
+    image: '/simantrian-preview.webp', 
+    link: '#'
+  },
+  {
+    title: 'DikSera',
+    description: 'Platform manajemen pendidikan modern dengan dashboard analitik dan sistem pengelolaan data yang terstruktur.',
+    tech: ['React', 'Tailwind', 'Laravel'],
+    image: '/diksera-preview.webp',
+    link: '#'
+  }
+];
+---
+
+<section id="work" class="mx-auto max-w-5xl px-6 py-24">
+  <div class="mb-16 flex items-end justify-between">
+    <div>
+      <h2 class="text-3xl font-medium tracking-tight text-primary">Selected Work</h2>
+      <p class="mt-2 text-secondary">Beberapa studi kasus dan proyek terbaru.</p>
+    </div>
+    <a href="https://github.com/zayssme" target="_blank" class="hidden text-sm text-secondary transition-colors hover:text-primary sm:block">
+      View Github ↗
+    </a>
+  </div>
+
+  <div class="flex flex-col gap-20">
+    {projects.map((project, index) => (
+      <div class={`flex flex-col gap-8 md:flex-row md:items-center ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}>
+        <div class="group relative w-full overflow-hidden rounded-2xl border border-border bg-surface md:w-3/5">
+          <div class="aspect-video w-full overflow-hidden bg-card">
+            <img 
+              src={project.image} 
+              alt={project.title} 
+              class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
+              loading="lazy"
+            />
+          </div>
+        </div>
+        
+        <div class="w-full md:w-2/5 md:px-6">
+          <h3 class="mb-3 text-2xl font-medium text-primary">{project.title}</h3>
+          <p class="mb-6 text-sm leading-relaxed text-secondary">{project.description}</p>
+          
+          <div class="mb-8 flex flex-wrap gap-2">
+            {project.tech.map((t) => (
+              <span class="rounded-full border border-border px-3 py-1 font-mono text-xs text-secondary">
+                {t}
+              </span>
+            ))}
+          </div>
+          
+          <a href={project.link} class="inline-flex items-center gap-2 text-sm font-medium text-primary transition-opacity hover:opacity-70">
+            View Case Study
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
