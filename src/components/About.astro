@@ -1,0 +1,30 @@
+---
+const stats = [
+  { value: '3+', label: 'Years Experience' },
+  { value: '20+', label: 'Projects Completed' },
+  { value: '90+', label: 'Lighthouse Score' },
+  { value: '100%', label: 'Commitment' },
+];
+---
+
+<section id="about" class="mx-auto max-w-5xl px-6 py-24">
+  <div class="grid gap-12 md:grid-cols-2 md:gap-16">
+    <div class="flex flex-col justify-center">
+      <h2 class="mb-6 text-3xl font-medium tracking-tight text-primary">
+        Minimalist approach,<br />maximum performance.
+      </h2>
+      <p class="text-base leading-relaxed text-secondary">
+        Saya berfokus pada pengembangan website dengan arsitektur modern. Memadukan desain UI yang bersih dengan sistem frontend yang cepat dan <b>scalable</b>. Setiap baris kode ditulis untuk memastikan performa maksimal dan pengalaman pengguna yang mulus.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      {stats.map((stat) => (
+        <div class="flex flex-col justify-center rounded-2xl border border-border bg-surface/30 p-6">
+          <span class="mb-1 text-3xl font-medium text-primary">{stat.value}</span>
+          <span class="font-mono text-xs text-secondary">{stat.label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
