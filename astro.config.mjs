@@ -11,5 +11,6 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  integrations: [react(), sitemap()]
+  site: 'https://zayssme.my.id', // Ganti dengan domain aslimu nanti
+  integrations: [react(), sitemap()],
 });
