@@ -1,0 +1,25 @@
+---
+const links = [
+  { name: 'About', href: '#about' },
+  { name: 'Services', href: '#services' },
+  { name: 'Work', href: '#work' },
+  { name: 'Contact', href: '#contact' },
+];
+---
+
+<header class="fixed top-0 z-40 w-full px-6 pt-6">
+  <nav class="mx-auto flex max-w-5xl items-center justify-between rounded-full border border-border bg-surface/50 px-6 py-3 backdrop-blur-md transition-all">
+    <a href="/" class="font-mono text-sm font-medium tracking-tight text-primary">
+      zayssme
+    </a>
+    <ul class="hidden gap-6 sm:flex">
+      {links.map((link) => (
+        <li>
+          <a href={link.href} class="text-sm text-secondary transition-colors hover:text-primary">
+            {link.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
