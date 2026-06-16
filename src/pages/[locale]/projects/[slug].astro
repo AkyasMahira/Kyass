@@ -24,9 +24,36 @@ const { Content } = await render(project);
 const locale = Astro.currentLocale ?? 'id';
 const t = useTranslations(locale);
 const { projects: proj } = t;
+
+const canonicalSlug = new URL(`/${locale}/projects/${project.id}`, Astro.site).toString();
+
+const breadcrumbData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: locale === 'id' ? "Beranda" : "Home",
+      item: new URL(`/${locale}/`, Astro.site).toString(),
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: proj.heading,
+      item: new URL(`/${locale}/projects`, Astro.site).toString(),
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: title,
+      item: canonicalSlug,
+    },
+  ],
+};
 ---
 
-<Layout title={`${title} | Zayssme`}>
+<Layout title={`${title} | Zayssme`} description={description} image={image} structuredData={breadcrumbData}>
   <Navbar />
   <main class="pt-24 pb-12">
     <article class="mx-auto max-w-3xl px-6">

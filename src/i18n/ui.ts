@@ -123,6 +123,11 @@ export const ui = {
       projectsOnGithub: "Lihat GitHub",
       githubCard: "Lihat project lainnya di GitHub",
     },
+    seo: {
+      homeDesc: "Akyas Mahira — Full Stack Web Developer. Membangun aplikasi web performa tinggi, sistem backend solid, dan antarmuka minimalis yang scalable.",
+      projectsDesc: "Kumpulan proyek web development, bot automation, dan sistem backend. Dibangun dengan fokus performa dan arsitektur bersih.",
+      siteName: "Zayssme",
+    },
   },
 
   en: {
@@ -248,6 +253,11 @@ export const ui = {
       viewProject: "View Project",
       projectsOnGithub: "View GitHub",
       githubCard: "See more projects on GitHub",
+    },
+    seo: {
+      homeDesc: "Akyas Mahira — Full Stack Web Developer. Building high-performance web apps, solid backend systems, and scalable minimalist interfaces.",
+      projectsDesc: "A collection of web development, bot automation, and backend projects. Built with focus on performance and clean architecture.",
+      siteName: "Zayssme",
     },
   },
 };

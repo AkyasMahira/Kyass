@@ -16,7 +16,7 @@ import { useTranslations } from '../../../i18n/utils';
 
 const locale = Astro.currentLocale ?? 'id';
 const t = useTranslations(locale);
-const { projects: proj } = t;
+const { projects: proj, seo } = t;
 
 const allProjects = await getCollection('projects');
 const projects = allProjects.sort((a, b) => {
@@ -28,7 +28,7 @@ const projects = allProjects.sort((a, b) => {
 const categories = [...new Set(projects.flatMap((p) => p.data.category ?? []))];
 ---
 
-<Layout title={`${proj.heading} | Zayssme`}>
+<Layout title={`${proj.heading} | Zayssme`} description={seo.projectsDesc}>
   <Navbar />
   <main class="pt-24 pb-12">
     <section class="mx-auto max-w-5xl px-6">

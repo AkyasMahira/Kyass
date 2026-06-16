@@ -8,44 +8,71 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  structuredData?: Record<string, any>;
 }
+
+const locale = Astro.currentLocale ?? 'id';
 
 const {
   title,
-  description = "Creating modern websites and automation systems with performance and simplicity in mind.",
-  image = "/og-image.webp"
+  description = locale === 'id'
+    ? "Akyas Mahira — Full Stack Web Developer. Membangun aplikasi web performa tinggi, sistem backend solid, dan antarmuka minimalis yang scalable."
+    : "Akyas Mahira — Full Stack Web Developer. Building high-performance web apps, solid backend systems, and scalable minimalist interfaces.",
+  image = "/og-image.webp",
+  structuredData,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(image, Astro.url);
+const siteName = "Zayssme";
 ---
 
 <!doctype html>
-<html lang={Astro.currentLocale ?? 'id'} class="scroll-smooth">
+<html lang={locale} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     
-    <!-- Primary Meta Tags -->
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, Astro.url)} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content={locale === 'id' ? 'id_ID' : 'en_US'} />
+    {locale === 'id' && <meta property="og:locale:alternate" content="en_US" />}
+    {locale === 'en' && <meta property="og:locale:alternate" content="id_ID" />}
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+    <meta name="twitter:site" content="@zayssme" />
+
+    <link rel="alternate" hreflang="id" href={new URL(Astro.url.pathname.replace(/^\/en/, '/id'), Astro.site)} />
+    <link rel="alternate" hreflang="en" href={new URL(Astro.url.pathname.replace(/^\/id/, '/en'), Astro.site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(Astro.url.pathname.replace(/^\/en/, '/id'), Astro.site)} />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: siteName,
+      url: Astro.site,
+    })} />
+
+    {structuredData && (
+      <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    )}
 
     <script is:inline>
       const theme = (() => {
