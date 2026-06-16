@@ -1,0 +1,54 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectCard from './ProjectCard.astro';
+import { useTranslations } from '../i18n/utils';
+
+const locale = Astro.currentLocale ?? 'id';
+const t = useTranslations(locale);
+const { featured } = t;
+
+const allProjects = await getCollection('projects');
+const featuredProjects = allProjects
+  .filter((p) => p.data.featured)
+  .sort((a, b) => {
+    const dateA = a.data.publishedAt ?? new Date(0);
+    const dateB = b.data.publishedAt ?? new Date(0);
+    return dateB.getTime() - dateA.getTime();
+  })
+  .slice(0, 3);
+
+if (featuredProjects.length === 0) return null;
+---
+
+<section id="work" class="mx-auto max-w-5xl px-6 py-24">
+  <div class="mb-12 flex items-end justify-between">
+    <div>
+      <h2 class="text-3xl font-medium tracking-tight text-primary">{featured.heading}</h2>
+      <p class="mt-2 text-secondary">{featured.subtitle}</p>
+    </div>
+    <a href={`/${locale}/projects`} class="hidden text-sm text-secondary transition-colors hover:text-primary sm:block">
+      {featured.viewAll}
+    </a>
+  </div>
+
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {featuredProjects.map((project) => (
+      <ProjectCard
+        title={project.data.title}
+        description={project.data.description}
+        image={project.data.image}
+        tech={project.data.tech}
+        link={project.data.link}
+        id={project.id}
+        locale={locale}
+      />
+    ))}
+  </div>
+
+  <div class="mt-10 text-center sm:hidden">
+    <a href={`/${locale}/projects`} class="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-border">
+      {featured.viewAllMobile}
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</section>

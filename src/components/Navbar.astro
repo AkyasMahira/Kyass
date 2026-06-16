@@ -1,17 +1,22 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
+import { useTranslations } from '../i18n/utils';
+
+const locale = Astro.currentLocale ?? 'id';
+const t = useTranslations(locale);
+const { nav } = t;
 
 const links = [
-  { name: 'About', href: '#about' },
-  { name: 'Services', href: '#services' },
-  { name: 'Work', href: '#work' },
-  { name: 'Contact', href: '#contact' },
+  { name: nav.about, href: `/${locale}/#about` },
+  { name: nav.projects, href: `/${locale}/projects` },
+  { name: nav.services, href: `/${locale}/#services` },
+  { name: nav.contact, href: `/${locale}/#contact` },
 ];
 ---
 
 <header class="fixed top-0 z-40 w-full px-6 pt-6">
   <nav class="mx-auto flex max-w-5xl items-center justify-between rounded-full border border-border bg-surface/50 px-6 py-3 backdrop-blur-md transition-all">
-    <a href="/" class="font-mono text-sm font-medium tracking-tight text-primary">
+    <a href={`/${locale}/`} class="font-mono text-sm font-medium tracking-tight text-primary">
       zayssme
     </a>
     <ul class="hidden gap-6 sm:flex">
@@ -23,6 +28,12 @@ const links = [
         </li>
       ))}
     </ul>
-    <ThemeToggle />
+    <div class="flex items-center gap-3">
+      <div class="flex gap-1 font-mono text-xs">
+        <a href={Astro.url.pathname.replace(/^\/en/, '/id')} class={`rounded px-1.5 py-0.5 transition-colors ${locale === 'id' ? 'bg-primary text-background' : 'text-secondary hover:text-primary'}`}>ID</a>
+        <a href={Astro.url.pathname.replace(/^\/id/, '/en')} class={`rounded px-1.5 py-0.5 transition-colors ${locale === 'en' ? 'bg-primary text-background' : 'text-secondary hover:text-primary'}`}>EN</a>
+      </div>
+      <ThemeToggle />
+    </div>
   </nav>
 </header>

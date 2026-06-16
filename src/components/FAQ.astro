@@ -1,0 +1,48 @@
+---
+import { useTranslations } from '../i18n/utils';
+
+const locale = Astro.currentLocale ?? 'id';
+const t = useTranslations(locale);
+const { faq } = t;
+---
+
+<section class="mx-auto max-w-5xl px-6 py-24">
+  <div class="mb-12">
+    <h2 class="text-3xl font-medium tracking-tight text-primary">{faq.heading}</h2>
+    <p class="mt-2 text-secondary">{faq.subtitle}</p>
+  </div>
+
+  <div class="max-w-2xl space-y-4" id="faq-list">
+    {faq.items.map((item, i) => (
+      <div class="rounded-2xl border border-border bg-card overflow-hidden">
+        <button
+          class="faq-toggle flex w-full items-center justify-between px-6 py-5 text-left transition-colors hover:bg-surface/50"
+          aria-expanded={i === 0 ? 'true' : 'false'}
+        >
+          <span class="pr-4 text-sm font-medium text-primary">{item.q}</span>
+          <svg class="faq-icon h-4 w-4 shrink-0 text-secondary transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+        <div class="faq-answer overflow-hidden border-t border-border" style={`max-height: ${i === 0 ? '200px' : '0'}; transition: max-height 0.3s ease;`}>
+          <p class="px-6 py-4 text-sm leading-relaxed text-secondary">{item.a}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script is:inline>
+  document.querySelectorAll('.faq-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const answer = item.querySelector('.faq-answer');
+      const icon = btn.querySelector('.faq-icon');
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      answer.style.maxHeight = isOpen ? '0' : answer.scrollHeight + 'px';
+      icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+    });
+  });
+</script>

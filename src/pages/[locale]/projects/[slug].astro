@@ -1,0 +1,142 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Navbar from '../../../components/Navbar.astro';
+import Footer from '../../../components/Footer.astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import { useTranslations } from '../../../i18n/utils';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.flatMap((project) => [
+    { params: { locale: 'id', slug: project.id }, props: { project } },
+    { params: { locale: 'en', slug: project.id }, props: { project } },
+  ]);
+}
+
+type Props = {
+  project: CollectionEntry<'projects'>;
+};
+
+const { project } = Astro.props;
+const { title, description, image, tech, link, publishedAt } = project.data;
+const { Content } = await render(project);
+
+const locale = Astro.currentLocale ?? 'id';
+const t = useTranslations(locale);
+const { projects: proj } = t;
+
+const canonicalSlug = new URL(`/${locale}/projects/${project.id}`, Astro.site).toString();
+
+const breadcrumbData = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: locale === 'id' ? "Beranda" : "Home",
+      item: new URL(`/${locale}/`, Astro.site).toString(),
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: proj.heading,
+      item: new URL(`/${locale}/projects`, Astro.site).toString(),
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: title,
+      item: canonicalSlug,
+    },
+  ],
+};
+---
+
+<Layout title={`${title} | Zayssme`} description={description} image={image} structuredData={breadcrumbData}>
+  <Navbar />
+  <main class="pt-24 pb-12">
+    <article class="mx-auto max-w-3xl px-6">
+      <a href={`/${locale}/projects`} class="mb-8 inline-flex items-center gap-2 font-mono text-xs text-secondary transition-colors hover:text-primary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        {proj.back}
+      </a>
+
+      <div class="mb-8 overflow-hidden rounded-2xl border border-border">
+        <div class="aspect-video w-full bg-surface">
+          <img src={image} alt={title} class="h-full w-full object-cover" />
+        </div>
+      </div>
+
+      <h1 class="mb-4 text-3xl font-medium tracking-tight text-primary sm:text-4xl">{title}</h1>
+
+      <div class="mb-6 flex flex-wrap items-center gap-3">
+        <div class="flex flex-wrap gap-2">
+          {tech.map((t) => (
+            <span class="rounded-full border border-border px-3 py-1 font-mono text-xs text-secondary">
+              {t}
+            </span>
+          ))}
+        </div>
+        {
+          publishedAt && (
+            <span class="font-mono text-xs text-secondary">
+              {new Date(publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+            </span>
+          )
+        }
+      </div>
+
+      <div class="prose-custom mb-12 text-base leading-relaxed text-secondary">
+        <Content />
+      </div>
+
+      {
+        link && (
+          <a href={link} target="_blank" class="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-background transition-transform hover:scale-105">
+            {proj.viewProject}
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          </a>
+        )
+      }
+    </article>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .prose-custom :global(h2) {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--theme-primary);
+    letter-spacing: -0.01em;
+  }
+  .prose-custom :global(h3) {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--theme-primary);
+  }
+  .prose-custom :global(p) {
+    margin-bottom: 1rem;
+  }
+  .prose-custom :global(ul) {
+    list-style: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .prose-custom :global(li) {
+    margin-bottom: 0.25rem;
+  }
+  .prose-custom :global(code) {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.85em;
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+  }
+</style>

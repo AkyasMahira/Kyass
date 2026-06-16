@@ -1,0 +1,35 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  image: string;
+  tech: string[];
+  link?: string;
+  id: string;
+  locale?: string;
+}
+
+const { title, description, image, tech, link, id, locale = 'id' } = Astro.props;
+---
+
+<a href={`/${locale}/projects/${id}`} class="group flex h-full flex-col rounded-2xl border border-border bg-card overflow-hidden transition-transform hover:-translate-y-1">
+  <div class="aspect-video w-full overflow-hidden bg-surface">
+    <img
+      src={image}
+      alt={title}
+      class="h-full w-full object-cover grayscale transition-all duration-500 group-hover:scale-105 group-hover:grayscale-0"
+      loading="lazy"
+    />
+  </div>
+  <div class="flex flex-1 flex-col p-6">
+    <h3 class="mb-2 text-lg font-medium text-primary group-hover:underline">{title}</h3>
+    <p class="mb-4 text-sm leading-relaxed text-secondary line-clamp-2">{description}</p>
+    <div class="mt-auto flex flex-wrap gap-2">
+      {tech.slice(0, 4).map((t) => (
+        <span class="rounded-full border border-border px-2.5 py-0.5 font-mono text-[11px] text-secondary">
+          {t}
+        </span>
+      ))}
+    </div>
+  </div>
+</a>

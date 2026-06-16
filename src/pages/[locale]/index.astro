@@ -1,0 +1,78 @@
+---
+export function getStaticPaths() {
+  return [
+    { params: { locale: 'id' } },
+    { params: { locale: 'en' } },
+  ];
+}
+
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Hero from '../../components/Hero.astro';
+import TechStack from '../../components/TechStack.astro';
+import About from '../../components/About.astro';
+import Services from '../../components/Services.astro';
+import FeaturedProjects from '../../components/FeaturedProjects.astro';
+import Process from '../../components/Process.astro';
+import Testimonials from '../../components/Testimonials.astro';
+import FAQ from '../../components/FAQ.astro';
+import Footer from '../../components/Footer.astro';
+import '../../styles/global.css';
+import FadeIn from '../../components/FadeIn.jsx';
+import { useTranslations } from '../../i18n/utils';
+
+const locale = Astro.currentLocale ?? 'id';
+const t = useTranslations(locale);
+const { seo } = t;
+
+const homeStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Akyas Mahira",
+  alternateName: "zayssme",
+  url: Astro.site,
+  jobTitle: "Full Stack Web Developer",
+  sameAs: [
+    "https://github.com/AkyasMahira",
+    "https://www.linkedin.com/in/akyasmahira",
+    "https://www.instagram.com/zayssme",
+  ],
+  image: new URL("/og-image.webp", Astro.site).toString(),
+};
+---
+
+<Layout title="Zayssme | Full Stack Developer" description={seo.homeDesc} structuredData={homeStructuredData}>
+  <Navbar />
+  <main>
+    <Hero />
+    
+    <FadeIn client:visible delay={0.1}>
+      <TechStack />
+    </FadeIn>
+
+    <FadeIn client:visible delay={0.2}>
+      <About />
+    </FadeIn>
+
+    <FadeIn client:visible delay={0.2}>
+      <Services />
+    </FadeIn>
+
+    <FadeIn client:visible delay={0.2}>
+      <FeaturedProjects />
+    </FadeIn>
+
+    <FadeIn client:visible delay={0.2}>
+      <Process />
+    </FadeIn>
+
+    <FadeIn client:visible delay={0.2}>
+      <Testimonials />
+    </FadeIn>
+
+    <FadeIn client:visible delay={0.2}>
+      <FAQ />
+    </FadeIn>
+  </main>
+  <Footer />
+</Layout>

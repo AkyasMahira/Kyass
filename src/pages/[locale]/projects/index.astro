@@ -1,0 +1,117 @@
+---
+export function getStaticPaths() {
+  return [
+    { params: { locale: 'id' } },
+    { params: { locale: 'en' } },
+  ];
+}
+
+import Layout from '../../../layouts/Layout.astro';
+import Navbar from '../../../components/Navbar.astro';
+import Footer from '../../../components/Footer.astro';
+import ProjectCard from '../../../components/ProjectCard.astro';
+import FadeIn from '../../../components/FadeIn.jsx';
+import { getCollection } from 'astro:content';
+import { useTranslations } from '../../../i18n/utils';
+
+const locale = Astro.currentLocale ?? 'id';
+const t = useTranslations(locale);
+const { projects: proj, seo } = t;
+
+const allProjects = await getCollection('projects');
+const projects = allProjects.sort((a, b) => {
+  const dateA = a.data.publishedAt ?? new Date(0);
+  const dateB = b.data.publishedAt ?? new Date(0);
+  return dateB.getTime() - dateA.getTime();
+});
+
+const categories = [...new Set(projects.flatMap((p) => p.data.category ?? []))];
+---
+
+<Layout title={`${proj.heading} | Zayssme`} description={seo.projectsDesc}>
+  <Navbar />
+  <main class="pt-24 pb-12">
+    <section class="mx-auto max-w-5xl px-6">
+      <div class="mb-12">
+        <h1 class="mb-3 text-4xl font-medium tracking-tight text-primary">{proj.heading}</h1>
+        <p class="max-w-lg text-secondary">{proj.subtitle}</p>
+      </div>
+
+      {
+        categories.length > 0 && (
+          <div class="mb-10 flex flex-wrap gap-2" id="category-filters">
+            <button
+              class="category-btn rounded-full border border-border px-4 py-1.5 font-mono text-xs text-secondary transition-all hover:border-primary hover:text-primary active border-primary! text-primary!"
+              data-category="all"
+            >
+              {proj.all}
+            </button>
+            {categories.map((cat) => (
+              <button
+                class="category-btn rounded-full border border-border px-4 py-1.5 font-mono text-xs text-secondary transition-all hover:border-primary hover:text-primary"
+                data-category={cat}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        )
+      }
+
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" id="projects-grid">
+        {projects.map((project, i) => (
+          <div data-category={(project.data.category ?? []).join(' ')} class="h-full">
+            <FadeIn client:visible delay={i * 0.05} className="h-full">
+              <ProjectCard
+                title={project.data.title}
+                description={project.data.description}
+                image={project.data.image}
+                tech={project.data.tech}
+                link={project.data.link}
+                id={project.id}
+                locale={locale}
+              />
+            </FadeIn>
+          </div>
+        ))}
+
+        <div data-github class="h-full">
+          <a href="https://github.com/AkyasMahira" target="_blank" class="group flex h-full flex-col items-center justify-center rounded-2xl border border-border/50 bg-surface/40 p-8 transition-all hover:border-border hover:bg-surface/60">
+            <div class="mb-4 rounded-full bg-primary/10 p-4 text-primary transition-transform group-hover:scale-110">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </div>
+            <span class="mb-1 text-sm font-medium text-primary">{proj.githubCard}</span>
+            <span class="font-mono text-xs text-secondary">github.com/AkyasMahira</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script is:inline>
+  const filterBtns = document.querySelectorAll('.category-btn');
+  const cards = document.querySelectorAll('#projects-grid > div');
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach((b) => {
+        b.classList.remove('border-primary!', 'text-primary!');
+      });
+      btn.classList.add('border-primary!', 'text-primary!');
+
+      const category = btn.getAttribute('data-category');
+
+      cards.forEach((card) => {
+        if (card.hasAttribute('data-github')) return;
+        const cardCats = (card.getAttribute('data-category') || '').split(' ').filter(Boolean);
+        if (category === 'all' || cardCats.includes(category)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>
