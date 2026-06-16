@@ -1,30 +1,53 @@
 ---
+import { useTranslations } from '../i18n/utils';
+
+const locale = Astro.currentLocale ?? 'id';
+const t = useTranslations(locale);
+const { about } = t;
+
 const stats = [
-  { value: '3+', label: 'Years Experience' },
-  { value: '20+', label: 'Projects Completed' },
-  { value: '90+', label: 'Lighthouse Score' },
-  { value: '100%', label: 'Commitment' },
+  { value: '3+', label: about.years },
+  { value: '20+', label: about.projects },
+  { value: '90+', label: about.lighthouse },
+  { value: '100%', label: about.commitment },
 ];
 ---
 
 <section id="about" class="mx-auto max-w-5xl px-6 py-24">
   <div class="grid gap-12 md:grid-cols-2 md:gap-16">
     <div class="flex flex-col justify-center">
+      <div class="mb-6 inline-flex h-20 w-20 items-center justify-center rounded-full bg-surface ring-1 ring-border">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-secondary">
+          <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
       <h2 class="mb-6 text-3xl font-medium tracking-tight text-primary">
-        Minimalist approach,<br />maximum performance.
+        {about.title}
       </h2>
       <p class="text-base leading-relaxed text-secondary">
-        Saya berfokus pada pengembangan website dengan arsitektur modern. Memadukan desain UI yang bersih dengan sistem frontend yang cepat dan <b>scalable</b>. Setiap baris kode ditulis untuk memastikan performa maksimal dan pengalaman pengguna yang mulus.
+        {about.bio1}
+      </p>
+      <p class="mt-4 text-base leading-relaxed text-secondary">
+        {about.bio2}
       </p>
     </div>
 
-    <div class="grid grid-cols-2 gap-4">
-      {stats.map((stat) => (
-        <div class="flex flex-col justify-center rounded-2xl border border-border bg-surface/30 p-6">
-          <span class="mb-1 text-3xl font-medium text-primary">{stat.value}</span>
-          <span class="font-mono text-xs text-secondary">{stat.label}</span>
-        </div>
-      ))}
+    <div class="flex flex-col gap-4">
+      <div class="grid grid-cols-2 gap-4">
+        {stats.map((stat) => (
+          <div class="flex flex-col justify-center rounded-2xl border border-border bg-surface/30 p-6">
+            <span class="mb-1 text-3xl font-medium text-primary">{stat.value}</span>
+            <span class="font-mono text-xs text-secondary">{stat.label}</span>
+          </div>
+        ))}
+      </div>
+      <div class="rounded-2xl border border-border bg-surface/30 p-6">
+        <h3 class="mb-3 font-medium text-primary text-sm">{about.currently}</h3>
+        <p class="text-sm text-secondary leading-relaxed">
+          {about.currentlyText}
+        </p>
+      </div>
     </div>
   </div>
 </section>

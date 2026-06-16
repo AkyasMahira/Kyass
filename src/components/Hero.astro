@@ -1,4 +1,9 @@
 ---
+import { useTranslations } from '../i18n/utils';
+
+const locale = Astro.currentLocale ?? 'id';
+const t = useTranslations(locale);
+const { hero } = t;
 ---
 
 <section class="relative mx-auto flex min-h-[90vh] max-w-5xl flex-col justify-center px-6 pt-24">
@@ -9,26 +14,25 @@
       <div class="flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1">
         <span class="h-2 w-2 animate-pulse rounded-full bg-accent"></span>
         <span class="font-mono text-[10px] uppercase tracking-wider text-secondary">
-          Available for freelance
+          {hero.badge}
         </span>
       </div>
 
       <h1 class="text-5xl font-medium tracking-tighter text-primary sm:text-6xl">
-        Building modern, <br class="hidden sm:block" />
-        <span class="text-secondary">fast & minimal</span> <br class="hidden sm:block" />
-        web experiences.
+        {hero.title1} <br class="hidden sm:block" />
+        <span class="text-secondary">{hero.title2}</span>
       </h1>
 
       <p class="max-w-md text-base text-secondary">
-        Web developer focused on high-performance websites, modern UI, and scalable frontend systems.
+        {hero.subtitle}
       </p>
 
       <div class="flex gap-4 pt-4">
-        <a href="#contact" class="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-background transition-transform hover:scale-105">
-          Start Project
+        <a href={`/${locale}/#contact`} class="rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-background transition-transform hover:scale-105">
+          {hero.cta1}
         </a>
-        <a href="#work" class="rounded-md border border-border bg-surface px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-border">
-          View Work
+        <a href={`/${locale}/#work`} class="rounded-md border border-border bg-surface px-5 py-2.5 text-sm font-medium text-primary transition-colors hover:bg-border">
+          {hero.cta2}
         </a>
       </div>
     </div>

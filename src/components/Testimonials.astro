@@ -1,0 +1,52 @@
+---
+import { useTranslations } from '../i18n/utils';
+
+const locale = Astro.currentLocale ?? 'id';
+const t = useTranslations(locale);
+const { testimonials } = t;
+
+const data = [
+  {
+    quote: locale === 'id'
+      ? "Pengerjaan sangat profesional dan cepat. Website yang dibangun memiliki performa luar biasa dan desain yang bersih. Sangat direkomendasikan."
+      : "Very professional and fast work. The website built has outstanding performance and clean design. Highly recommended.",
+    name: "Sarah Chen",
+    role: "Founder, TechStart",
+  },
+  {
+    quote: locale === 'id'
+      ? "Bot Telegram yang dibuat sangat membantu operasional klinik kami. Integrasi database berjalan mulus dan mudah digunakan oleh staf."
+      : "The Telegram bot built greatly helps our clinic operations. Database integration runs smoothly and is easy for staff to use.",
+    name: "Dr. Andi Pratama",
+    role: "Clinical Director, DentalPro",
+  },
+  {
+    quote: locale === 'id'
+      ? "Bekerja sama sangat menyenangkan. Komunikasi jelas, deadline tepat waktu, dan hasil melebihi ekspektasi. Pasti akan bekerja sama lagi."
+      : "A pleasure to work with. Clear communication, timely deadlines, and results exceeded expectations. Will definitely collaborate again.",
+    name: "Rina Wijaya",
+    role: "Product Manager, Edulink",
+  },
+];
+---
+
+<section class="mx-auto max-w-5xl px-6 py-24">
+  <div class="mb-12">
+    <h2 class="text-3xl font-medium tracking-tight text-primary">{testimonials.heading}</h2>
+    <p class="mt-2 text-secondary">{testimonials.subtitle}</p>
+  </div>
+
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {data.map((item) => (
+      <div class="rounded-2xl border border-border bg-card p-8 flex flex-col justify-between">
+        <blockquote class="mb-6 text-sm leading-relaxed text-secondary">
+          &ldquo;{item.quote}&rdquo;
+        </blockquote>
+        <div>
+          <p class="font-medium text-primary text-sm">{item.name}</p>
+          <p class="font-mono text-xs text-secondary">{item.role}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>

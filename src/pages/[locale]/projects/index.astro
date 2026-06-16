@@ -1,0 +1,106 @@
+---
+export function getStaticPaths() {
+  return [
+    { params: { locale: 'id' } },
+    { params: { locale: 'en' } },
+  ];
+}
+
+import Layout from '../../../layouts/Layout.astro';
+import Navbar from '../../../components/Navbar.astro';
+import Footer from '../../../components/Footer.astro';
+import ProjectCard from '../../../components/ProjectCard.astro';
+import FadeIn from '../../../components/FadeIn.jsx';
+import { getCollection } from 'astro:content';
+import { useTranslations } from '../../../i18n/utils';
+
+const locale = Astro.currentLocale ?? 'id';
+const t = useTranslations(locale);
+const { projects: proj } = t;
+
+const allProjects = await getCollection('projects');
+const projects = allProjects.sort((a, b) => {
+  const dateA = a.data.publishedAt ?? new Date(0);
+  const dateB = b.data.publishedAt ?? new Date(0);
+  return dateB.getTime() - dateA.getTime();
+});
+
+const categories = [...new Set(projects.flatMap((p) => p.data.category ?? []))];
+---
+
+<Layout title={`${proj.heading} | Zayssme`}>
+  <Navbar />
+  <main class="pt-24 pb-12">
+    <section class="mx-auto max-w-5xl px-6">
+      <div class="mb-12">
+        <h1 class="mb-3 text-4xl font-medium tracking-tight text-primary">{proj.heading}</h1>
+        <p class="max-w-lg text-secondary">{proj.subtitle}</p>
+      </div>
+
+      {
+        categories.length > 0 && (
+          <div class="mb-10 flex flex-wrap gap-2" id="category-filters">
+            <button
+              class="category-btn rounded-full border border-border px-4 py-1.5 font-mono text-xs text-secondary transition-all hover:border-primary hover:text-primary active border-primary! text-primary!"
+              data-category="all"
+            >
+              {proj.all}
+            </button>
+            {categories.map((cat) => (
+              <button
+                class="category-btn rounded-full border border-border px-4 py-1.5 font-mono text-xs text-secondary transition-all hover:border-primary hover:text-primary"
+                data-category={cat}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        )
+      }
+
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" id="projects-grid">
+        {projects.map((project, i) => (
+          <div data-category={(project.data.category ?? []).join(' ')} class="h-full">
+            <FadeIn client:visible delay={i * 0.05} className="h-full">
+              <ProjectCard
+                title={project.data.title}
+                description={project.data.description}
+                image={project.data.image}
+                tech={project.data.tech}
+                link={project.data.link}
+                id={project.id}
+                locale={locale}
+              />
+            </FadeIn>
+          </div>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script is:inline>
+  const filterBtns = document.querySelectorAll('.category-btn');
+  const cards = document.querySelectorAll('#projects-grid > div');
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach((b) => {
+        b.classList.remove('border-primary!', 'text-primary!');
+      });
+      btn.classList.add('border-primary!', 'text-primary!');
+
+      const category = btn.getAttribute('data-category');
+
+      cards.forEach((card) => {
+        const cardCats = (card.getAttribute('data-category') || '').split(' ').filter(Boolean);
+        if (category === 'all' || cardCats.includes(category)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

@@ -1,22 +1,21 @@
 ---
-const steps = [
-  { id: '01', title: 'Discovery', desc: 'Memahami visi, target audiens, dan kebutuhan teknis proyek.' },
-  { id: '02', title: 'Design', desc: 'Pembuatan wireframe dan antarmuka (UI) dengan pendekatan minimalis.' },
-  { id: '03', title: 'Development', desc: 'Membangun sistem dengan kode yang bersih, efisien, dan performa tinggi.' },
-  { id: '04', title: 'Launch', desc: 'Deployment, pengujian akhir, dan serah terima proyek.' }
-];
+import { useTranslations } from '../i18n/utils';
+
+const locale = Astro.currentLocale ?? 'id';
+const t = useTranslations(locale);
+const { process: data } = t;
 ---
 
 <section class="mx-auto max-w-5xl px-6 py-24">
   <div class="mb-12">
-    <h2 class="text-3xl font-medium tracking-tight text-primary">Process</h2>
-    <p class="mt-2 text-secondary">Bagaimana ide diubah menjadi produk nyata.</p>
+    <h2 class="text-3xl font-medium tracking-tight text-primary">{data.heading}</h2>
+    <p class="mt-2 text-secondary">{data.subtitle}</p>
   </div>
 
   <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-    {steps.map((step) => (
+    {data.steps.map((step, i) => (
       <div class="relative border-t border-border pt-6">
-        <span class="mb-4 block font-mono text-xs text-secondary">{step.id}</span>
+        <span class="mb-4 block font-mono text-xs text-secondary">0{i + 1}</span>
         <h3 class="mb-2 text-lg font-medium text-primary">{step.title}</h3>
         <p class="text-sm leading-relaxed text-secondary">{step.desc}</p>
       </div>

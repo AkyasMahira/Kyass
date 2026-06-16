@@ -4,6 +4,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
+import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
@@ -11,6 +12,11 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  site: 'https://zayssme.my.id', // Ganti dengan domain aslimu nanti
-  integrations: [react(), sitemap()],
+  site: 'https://zayssme.my.id',
+  integrations: [react(), sitemap(), mdx()],
+
+  i18n: {
+    locales: ['id', 'en'],
+    defaultLocale: 'id',
+  },
 });
