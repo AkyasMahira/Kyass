@@ -8,19 +8,19 @@ export const ui = {
     },
     hero: {
       badge: "Tersedia untuk freelance",
+      name: "Akyas Mahira",
+      role: "Full Stack Web Developer",
       title1: "Membangun web experience",
       title2: "modern, cepat & minimal.",
       subtitle:
-        "Web developer fokus pada website performa tinggi, UI modern, dan sistem frontend yang scalable.",
+        "Web developer yang fokus pada pengembangan aplikasi web performa tinggi, sistem backend solid, dan antarmuka minimalis yang scalable.",
       cta1: "Mulai Project",
       cta2: "Lihat Karya",
     },
     about: {
       title: "Pendekatan minimalis, performa maksimal.",
-      bio1:
-        "Saya seorang full-stack web developer yang berfokus pada pengembangan website dengan arsitektur modern. Memadukan desain UI yang bersih dengan sistem frontend yang cepat dan scalable.",
-      bio2:
-        "Berpengalaman membangun berbagai proyek mulai dari website portfolio, platform manajemen pendidikan, hingga bot automation. Setiap baris kode ditulis untuk memastikan performa maksimal dan pengalaman pengguna yang mulus.",
+      bio1: "Saya seorang Full Stack Web Developer yang berfokus pada arsitektur modern dan efisiensi resource. Memadukan antarmuka yang bersih dengan sistem backend yang solid serta manajemen basis data yang terstruktur.",
+      bio2: "Berpengalaman membangun ekosistem web app berperforma tinggi, platform manajemen klinis & diklat, hingga bot automation terintegrasi. Setiap baris kode ditulis untuk memastikan skalabilitas sistem dan pengalaman pengguna yang mulus.",
       currently: "Saat Ini",
       currentlyText:
         "Menerima proyek freelance dan kolaborasi. Tertarik membangun web app performa tinggi, sistem automasi, dan developer tools yang bersih.",
@@ -121,6 +121,7 @@ export const ui = {
       back: "Kembali ke Projects",
       viewProject: "Lihat Project",
       projectsOnGithub: "Lihat GitHub",
+      githubCard: "Lihat project lainnya di GitHub",
     },
   },
 
@@ -133,19 +134,19 @@ export const ui = {
     },
     hero: {
       badge: "Available for freelance",
+      name: "Akyas Mahira",
+      role: "Full Stack Web Developer",
       title1: "Building modern,",
       title2: "fast & minimal web experiences.",
       subtitle:
-        "Web developer focused on high-performance websites, modern UI, and scalable frontend systems.",
+        "Web developer focused on high-performance web apps, solid backend systems, and scalable minimalist interfaces.",
       cta1: "Start Project",
       cta2: "View Work",
     },
     about: {
       title: "Minimalist approach, maximum performance.",
-      bio1:
-        "I'm a full-stack web developer focused on building websites with modern architecture. Combining clean UI design with fast, scalable frontend systems.",
-      bio2:
-        "Experienced in building various projects from portfolio websites, education management platforms, to bot automation. Every line of code is written to ensure maximum performance and a smooth user experience.",
+      bio1: "I'm a full-stack web developer focused on building websites with modern architecture. Combining clean UI design with fast, scalable frontend systems.",
+      bio2: "Experienced in building various projects from portfolio websites, education management platforms, to bot automation. Every line of code is written to ensure maximum performance and a smooth user experience.",
       currently: "Currently",
       currentlyText:
         "Open for freelance projects and collaboration. Interested in building performant web apps, automation systems, and clean developer tools.",
@@ -246,6 +247,7 @@ export const ui = {
       back: "Back to Projects",
       viewProject: "View Project",
       projectsOnGithub: "View GitHub",
+      githubCard: "See more projects on GitHub",
     },
   },
 };
