@@ -3,7 +3,7 @@ title: "NugasReceh"
 description: "Platform micro-earning berbasis Laravel 12 dan Android Java yang memungkinkan pengguna menghasilkan uang dengan menyelesaikan tugas media sosial."
 publishedAt: 2025-08-15
 image: "/nugasreceh-preview.webp"
-link: "https://github.com/AkyasMahira/nugasreceh"
+link: "https://nugasreceh.com"
 tech: ["Laravel", "Android Java", "Tailwind CSS", "MySQL", "Vite"]
 featured: true
 category: ["web", "optimization"]
